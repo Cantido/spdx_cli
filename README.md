@@ -40,11 +40,18 @@ Pipe this into a file, and boom, you've got your license!
 spdx MIT > LICENSE
 ```
 
+## Other projects like this
+
+Check out the Free Software Foundation Europe's [REUSE helper tool](https://github.com/fsfe/reuse-tool).
+It can lint your project against the REUSE specification,
+which makes it easier for other people to reuse your work.
+It can also download licenses, and add licensing headers to your source files.
+
 ## Roadmap
 
-- [X] Fetch license text
-- [X] Fetch other license fields (name, header)
-- [ ] Search licenses by name or ID
+- ~Fetch license text~
+- ~Fetch other license fields (name, header)~
+- Search licenses by name or ID
 
 Please suggest more cool stuff I can do with this!
 
