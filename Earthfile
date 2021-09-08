@@ -6,6 +6,8 @@ ARG MIX_ENV=dev
 
 all:
   BUILD +test
+  BUILD +lint
+  BUILD +lint-copyright
   BUILD +docker
 
 get-deps:
