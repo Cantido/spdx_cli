@@ -1,8 +1,8 @@
+# SPDX-FileCopyrightText: 2021 Rosa Richter
+#
+# SPDX-License-Identifier: MIT
+
 defmodule SpdxCliTest do
   use ExUnit.Case
   doctest SpdxCli
-
-  test "greets the world" do
-    assert SpdxCli.hello() == :world
-  end
 end

@@ -1,6 +1,13 @@
-# SpdxCli
+<!--
+SPDX-FileCopyrightText: 2021 Rosa Richter
 
-**TODO: Add description**
+SPDX-License-Identifier: MIT
+-->
+
+# SPDX CLI
+
+A command-line wrapper to the SPDX license list.
+
 
 ## Installation
 
