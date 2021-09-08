@@ -25,7 +25,7 @@ This will install the script to `~/.mix/escripts`, which you should add to your 
 Use `spdx` to download license texts.
 You will need to know the SPDX identifier for your license.
 
-```sh
+```
 $ spdx MIT
 MIT License
 
