@@ -64,7 +64,8 @@ It can also download licenses, and add licensing headers to your source files.
 
 - ~Fetch license text~
 - ~Fetch other license fields (name, header)~
-- Search licenses by name or ID
+- ~Search licenses by name or ID~
+- ~Format list output in CSV~
 
 Please suggest more cool stuff I can do with this!
 
