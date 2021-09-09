@@ -8,6 +8,7 @@ all:
   BUILD +test
   BUILD +lint
   BUILD +lint-copyright
+  BUILD +lint-format
   BUILD +docker
 
 get-deps:
@@ -41,6 +42,13 @@ lint:
   FROM +build
 
   RUN mix credo list
+
+lint-format:
+  FROM +build
+
+  COPY .formatter.exs .
+
+  RUN mix format --check-formatted
 
 lint-copyright:
   FROM fsfe/reuse
