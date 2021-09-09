@@ -13,7 +13,7 @@ defmodule SpdxCli do
     Optimus.new!(
       name: "spdx",
       description: "Software license tool",
-      version: "1.1.0",
+      version: "1.2.0",
       author: "Rosa Richter <cosmic.lady.rosa@gmail.com>",
       about: "Utility for searching and using the SPDX software license database",
       allow_unknown_args: false,
