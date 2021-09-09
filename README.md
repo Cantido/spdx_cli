@@ -40,6 +40,13 @@ Pipe this into a file, and boom, you've got your license!
 spdx MIT > LICENSE
 ```
 
+You can also use `spdx ls` to list all licenses in the database, possibly for piping into `grep`.
+
+```sh
+spdx ls | grep 'Creative Commmons' | wc -l
+49
+```
+
 ## Other projects like this
 
 Check out the Free Software Foundation Europe's [REUSE helper tool](https://github.com/fsfe/reuse-tool).
