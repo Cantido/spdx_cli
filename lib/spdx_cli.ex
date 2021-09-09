@@ -41,7 +41,7 @@ defmodule SpdxCli do
       subcommands: [
         list: [
           name: "ls",
-          about: "list the license database",
+          about: "list the license database"
         ]
       ]
     )
@@ -52,15 +52,28 @@ defmodule SpdxCli do
   defp do_command({[:list], _command}) do
     {:ok, _} = HTTPoison.start()
 
-    HTTPoison.get!("https://spdx.org/licenses/licenses.json")
-    |> Map.get(:body)
-    |> Poison.decode!()
-    |> Map.get("licenses")
-    |> Enum.map(fn license ->
-      "#{license["licenseId"]} #{license["name"]}"
-    end)
-    |> Enum.join("\n")
-    |> IO.puts()
+    with {:ok, response} when response.status_code == 200 <-
+           HTTPoison.get("https://spdx.org/licenses/licenses.json"),
+         {:ok, licenses_data} <- Poison.decode(response.body) do
+      licenses_data["licenses"]
+      |> Enum.map(fn license ->
+        "#{license["licenseId"]} #{license["name"]}"
+      end)
+      |> Enum.join("\n")
+      |> IO.puts()
+    else
+      {:ok, %HTTPoison.Response{status_code: status}} ->
+        IO.puts(:stderr, "Received #{status} response from spdx.org")
+        System.stop(2)
+
+      {:error, %HTTPoison.Error{} = e} ->
+        IO.puts(:stderr, "Failed to connect to spdx.org: #{Exception.message(e)}")
+        System.stop(3)
+
+      {:error, e} ->
+        IO.puts(:stderr, "Failed to parse response from spdx.org: #{Exception.message(e)}")
+        System.stop(4)
+    end
   end
 
   defp do_command(%Optimus.ParseResult{} = command) do
@@ -69,14 +82,26 @@ defmodule SpdxCli do
 
     {:ok, _} = HTTPoison.start()
 
-    HTTPoison.get("https://spdx.org/licenses/#{license_id}.json")
-    |> case do
-      {:ok, response} ->
-        if response.status_code == 200 do
-          Poison.decode!(response.body)[field]
-          |> IO.puts()
-        end
-        # No output if nothing is found
+    with {:ok, response} when response.status_code == 200 <-
+           HTTPoison.get("https://spdx.org/licenses/#{license_id}.json"),
+         {:ok, license_data} <- Poison.decode(response.body) do
+      IO.puts(license_data[field])
+    else
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        IO.puts(:stderr, "No license found")
+        System.stop(1)
+
+      {:ok, %HTTPoison.Response{status_code: status}} ->
+        IO.puts(:stderr, "Received #{status} response from spdx.org")
+        System.stop(2)
+
+      {:error, %HTTPoison.Error{} = e} ->
+        IO.puts(:stderr, "Failed to connect to spdx.org: #{Exception.message(e)}")
+        System.stop(3)
+
+      {:error, e} ->
+        IO.puts(:stderr, "Failed to parse response from spdx.org: #{Exception.message(e)}")
+        System.stop(4)
     end
   end
 
