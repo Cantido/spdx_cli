@@ -73,7 +73,7 @@ defmodule SpdxCli do
     with {:ok, response} when response.status_code == 200 <-
            HTTPoison.get("https://spdx.org/licenses/licenses.json"),
          {:ok, licenses_data} <- Poison.decode(response.body) do
-      licenses_data["licenses"] 
+      licenses_data["licenses"]
       |> format_license_list(command.options.format)
       |> IO.puts()
     else
@@ -119,9 +119,9 @@ defmodule SpdxCli do
         System.stop(4)
     end
   end
-  
+
   defp format_license_list(list, "text") do
-    list 
+    list
     |> Enum.map(fn license ->
       "#{license["licenseId"]} #{license["name"]}"
     end)
@@ -139,6 +139,7 @@ defmodule SpdxCli do
     |> Enum.map(fn license ->
       # Produce lists that all have the same order
       keys = Map.keys(license) |> Enum.sort()
+
       Enum.map(keys, fn key ->
         license[key]
       end)
