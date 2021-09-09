@@ -37,10 +37,30 @@ defmodule SpdxCli do
           name: "LICENSE_ID",
           help: "SPDX identifier of the license."
         ]
+      ],
+      subcommands: [
+        list: [
+          name: "ls",
+          about: "list the license database",
+        ]
       ]
     )
     |> Optimus.parse!(argv)
     |> do_command()
+  end
+
+  defp do_command({[:list], command}) do
+    {:ok, _} = HTTPoison.start()
+
+    HTTPoison.get!("https://spdx.org/licenses/licenses.json")
+    |> Map.get(:body)
+    |> Poison.decode!()
+    |> Map.get("licenses")
+    |> Enum.map(fn license ->
+      "#{license["licenseId"]} #{license["name"]}"
+    end)
+    |> Enum.join("\n")
+    |> IO.puts()
   end
 
   defp do_command(command) do
@@ -52,8 +72,11 @@ defmodule SpdxCli do
     HTTPoison.get("https://spdx.org/licenses/#{license_id}.json")
     |> case do
       {:ok, response} ->
-        Poison.decode!(response.body)[field]
-        |> IO.puts()
+        if response.status_code == 200 do
+          Poison.decode!(response.body)[field]
+          |> IO.puts()
+        end
+        # No output if nothing is found
     end
   end
 
