@@ -7,6 +7,8 @@ defmodule SpdxCli do
   Documentation for `SpdxCli`.
   """
 
+  NimbleCSV.define(SpdxParser, [])
+
   def main(argv) do
     Optimus.new!(
       name: "spdx",
@@ -41,7 +43,23 @@ defmodule SpdxCli do
       subcommands: [
         list: [
           name: "ls",
-          about: "list the license database"
+          about: "list the license database",
+          options: [
+            format: [
+              value_name: "FORMAT",
+              short: "-f",
+              long: "--format",
+              help: "The structure of the returned list {text|csv|json}",
+              default: "text",
+              parser: fn arg ->
+                if arg in ["text", "csv", "json"] do
+                  {:ok, arg}
+                else
+                  {:error, "Unknown field"}
+                end
+              end
+            ]
+          ]
         ]
       ]
     )
@@ -49,17 +67,14 @@ defmodule SpdxCli do
     |> do_command()
   end
 
-  defp do_command({[:list], _command}) do
+  defp do_command({[:list], command}) do
     {:ok, _} = HTTPoison.start()
 
     with {:ok, response} when response.status_code == 200 <-
            HTTPoison.get("https://spdx.org/licenses/licenses.json"),
          {:ok, licenses_data} <- Poison.decode(response.body) do
-      licenses_data["licenses"]
-      |> Enum.map(fn license ->
-        "#{license["licenseId"]} #{license["name"]}"
-      end)
-      |> Enum.join("\n")
+      licenses_data["licenses"] 
+      |> format_license_list(command.options.format)
       |> IO.puts()
     else
       {:ok, %HTTPoison.Response{status_code: status}} ->
@@ -104,6 +119,36 @@ defmodule SpdxCli do
         System.stop(4)
     end
   end
+  
+  defp format_license_list(list, "text") do
+    list 
+    |> Enum.map(fn license ->
+      "#{license["licenseId"]} #{license["name"]}"
+    end)
+    |> Enum.join("\n")
+  end
+
+  defp format_license_list(list, "json") do
+    Poison.encode!(list)
+  end
+
+  defp format_license_list(list, "csv") do
+    headers = Enum.at(list, 0) |> Map.keys() |> Enum.sort()
+
+    list
+    |> Enum.map(fn license ->
+      # Produce lists that all have the same order
+      keys = Map.keys(license) |> Enum.sort()
+      Enum.map(keys, fn key ->
+        license[key]
+      end)
+    end)
+    |> prepend(headers)
+    |> SpdxParser.dump_to_iodata()
+    |> IO.iodata_to_binary()
+  end
+
+  def prepend(list, item), do: [item | list]
 
   defp translate_field_name("text"), do: "licenseText"
   defp translate_field_name("header"), do: "standardLicenseHeader"
