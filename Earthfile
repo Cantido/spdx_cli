@@ -64,7 +64,10 @@ escript:
   SAVE ARTIFACT spdx AS LOCAL ./spdx
 
 docker:
-  FROM --build-arg MIX_ENV=prod +escript
+  FROM elixir:1.12-alpine
+  WORKDIR /app
+
+  COPY --build-arg MIX_ENV=prod +escript/spdx .
 
   ENTRYPOINT ["/app/spdx"]
 
