@@ -19,6 +19,8 @@ mix escript.install hex spdx_cli
 ```
 
 This will install the script to `~/.mix/escripts`, which you should add to your `PATH`.
+If you're using [`asdf`](https://github.com/asdf-vm/asdf) to manage your Elixir version--which you should--
+you will just need to run `asdf reshim` after installing, and you don't need to update your `PATH`.
 
 You can also install this command via Docker:
 
