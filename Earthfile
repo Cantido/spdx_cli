@@ -67,3 +67,5 @@ docker:
   FROM --build-arg MIX_ENV=prod +escript
 
   ENTRYPOINT ["/app/spdx"]
+
+  SAVE IMAGE ghcr.io/Cantido/spdx_cli:latest
