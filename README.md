@@ -37,7 +37,7 @@ MIT License
 
 Copyright (c) <year> <copyright holders>
 
-THE SOFTWARE IS PROVIDED "AS IS"...
+Permission is hereby granted...
 ```
 
 Pipe this into a file, and boom, you've got your license!
