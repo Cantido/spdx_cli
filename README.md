@@ -20,6 +20,12 @@ mix escript.install hex spdx_cli
 
 This will install the script to `~/.mix/escripts`, which you should add to your `PATH`.
 
+You can also install this command via Docker:
+
+```sh
+docker run ghcr.io/cantido/spdx_cli --help
+```
+
 ## Usage
 
 Use `spdx` to download license texts.
