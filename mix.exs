@@ -9,7 +9,7 @@ defmodule SpdxCli.MixProject do
     [
       app: :spdx_cli,
       description: "A CLI for the SPDX License List",
-      version: "1.0.0",
+      version: "1.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
