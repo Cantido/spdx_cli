@@ -68,4 +68,4 @@ docker:
 
   ENTRYPOINT ["/app/spdx"]
 
-  SAVE IMAGE ghcr.io/Cantido/spdx_cli:latest
+  SAVE IMAGE --push ghcr.io/Cantido/spdx_cli:latest
