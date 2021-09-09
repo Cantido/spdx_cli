@@ -49,7 +49,7 @@ defmodule SpdxCli do
     |> do_command()
   end
 
-  defp do_command({[:list], command}) do
+  defp do_command({[:list], _command}) do
     {:ok, _} = HTTPoison.start()
 
     HTTPoison.get!("https://spdx.org/licenses/licenses.json")
@@ -63,7 +63,7 @@ defmodule SpdxCli do
     |> IO.puts()
   end
 
-  defp do_command(command) do
+  defp do_command(%Optimus.ParseResult{} = command) do
     license_id = command.args.license
     field = translate_field_name(command.options.field)
 
