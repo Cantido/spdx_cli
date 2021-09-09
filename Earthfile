@@ -5,6 +5,7 @@
 ARG MIX_ENV=dev
 
 all:
+  BUILD +audit-deps
   BUILD +test
   BUILD +lint
   BUILD +lint-copyright
@@ -19,6 +20,11 @@ get-deps:
   COPY mix.lock .
 
   RUN mix deps.get
+
+audit-deps:
+  FROM +get-deps
+
+  RUN mix hex.audit
 
 compile-deps:
   FROM +get-deps
