@@ -6,6 +6,12 @@ SPDX-License-Identifier: MIT
 
 # SPDX CLI
 
+[![Hex.pm](https://img.shields.io/hexpm/v/spdx_cli)](https://hex.pm/packages/spdx_cli/)
+[![builds.sr.ht status](https://builds.sr.ht/~cosmicrose/spdx_cli.svg)](https://builds.sr.ht/~cosmicrose/spdx_cli?)
+[![liberapay goals](https://img.shields.io/liberapay/goal/rosa.svg?logo=liberapay)](https://liberapay.com/rosa)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+
 A command-line wrapper to the SPDX license list.
 
 ## Installation

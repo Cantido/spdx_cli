@@ -34,7 +34,8 @@ defmodule SpdxCli.MixProject do
       licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/Cantido/spdx_cli",
-        "sourcehut" => "https://sr.ht/~cosmicrose/spdx_cli"
+        "sourcehut" => "https://sr.ht/~cosmicrose/spdx_cli",
+        "Sponsor" => "https://liberapay.com/rosa"
       }
     ]
   end
