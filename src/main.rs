@@ -22,6 +22,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   let license = reqwest::blocking::get(url)?
       .json::<License>()?;
 
-  println!("Result: {:?}", license);
+  println!("{}", license.license_text);
   Ok(())
 }
