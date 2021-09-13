@@ -1,5 +1,10 @@
+// SPDX-FileCopyrightText: 2021 Rosa Richter
+//
+// SPDX-License-Identifier: MIT
+
 use std::env;
 use serde::Deserialize;
+use clap::{App, load_yaml};
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -22,7 +27,10 @@ struct LicenseList {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   let args: Vec<String> = env::args().collect();
 
-  if &args[1] == "ls" {
+  let yaml = load_yaml!("cli.yaml");
+  let matches = App::from(yaml).get_matches();
+
+  if let Some(ref _matches) = matches.subcommand_matches("ls") {
     let licenses = reqwest::blocking::get("https://spdx.org/licenses/licenses.json")?
          .json::<LicenseList>()?
          .licenses;

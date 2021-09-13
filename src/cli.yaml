@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 Rosa Richter
+#
+# SPDX-License-Identifier: MIT
+
+name: spdx
+version: "1.0"
+author: Rosa Richter <cosmic.lady.rosa@gmail.com>
+about: Fetches licenses from spdx.org
+args:
+  - LICENSE_ID:
+      about: The license ID to fetch
+subcommands:
+  - ls:
+      about: lists licenses
